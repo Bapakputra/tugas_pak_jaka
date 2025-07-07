@@ -1,1018 +1,560 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="id">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Sygara - Buah & Sayur Segar Berkualitas</title>
-    <meta name="description"
-        content="Sygara menyediakan buah dan sayur segar berkualitas tinggi langsung dari kebun. Produk organik untuk hidup sehat keluarga Indonesia.">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jual Kamera - Toko Kamera Modern</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+        }
+        .hero {
+            background: url('https://images.unsplash.com/photo-1519183071298-a2962eadcdb2') no-repeat center center;
+            background-size: cover;
+            color: white;
+            padding: 150px 0;
+            text-align: center;
+        }
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .filter-bar {
+            margin-bottom: 20px;
+        }
+        .testimonial-img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+        /* Style untuk halaman detail produk */
+        .product-detail-page, .auth-page {
+            display: none;
+        }
+        .product-detail-page.active, .auth-page.active {
+            display: block;
+        }
+        .product-image {
+            max-height: 500px;
+            width: 100%;
+            object-fit: contain;
+        }
+        .back-button {
+            margin-top: 20px;
+        }
+        .specs-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .specs-list li {
+            margin-bottom: 10px;
+            padding-left: 1.5em;
+            text-indent: -1.5em;
+        }
+        .specs-list li:before {
+            content: "• ";
+            color: #0d6efd;
+            font-weight: bold;
+        }
+        .auth-container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        .auth-toggle {
+            cursor: pointer;
+            color: #0d6efd;
+            text-decoration: underline;
+        }
+        .user-greeting {
+            margin-right: 15px;
+            color: white;
+        }
+    </style>
 </head>
 
-<style>
-    :root {
-        /* Vibrant Pastel Color Palette (consistent with Beranda) */
-        --vibrant-green: #90EE90;
-        /* Light Green */
-        --vibrant-blue: #ADD8E6;
-        /* Light Blue */
-        --vibrant-pink: #FFB6C1;
-        /* Light Pink */
-        --vibrant-yellow: #FFFACD;
-        /* Lemon Chiffon */
-        --vibrant-purple: #DDA0DD;
-        /* Plum */
-        --text-dark: #333333;
-        /* Darker text for readability */
-        --text-light: #666666;
-        /* Lighter text for secondary content */
-        --button-primary: #4CAF50;
-        /* Stronger Green for buttons */
-        --button-danger: #FF6347;
-        /* Tomato Red for danger button */
-    }
-
-    * {
-        font-family: 'Poppins', sans-serif;
-    }
-
-    body {
-        padding-top: 80px; /* Adjust for fixed navbar */
-        background-color: #F7FDF9; /* Consistent with Beranda */
-        color: var(--text-dark);
-    }
-
-    /* Navbar Styling (Consistent with Beranda) */
-    .navbar-nav {
-        margin-left: auto;
-        display: flex;
-        align-items: center;
-    }
-
-    .nav-link {
-        color: var(--text-dark) !important;
-        /* Ensure nav links use the dark text color */
-        font-weight: 500;
-        margin-right: 15px;
-    }
-
-    .nav-link:hover {
-        color: var(--button-primary) !important;
-    }
-
-    .btn {
-        border-radius: 25px;
-        /* More rounded buttons, consistent with Beranda */
-        padding: 10px 25px;
-        margin-left: 10px;
-        font-weight: 600;
-        /* Consistent with Beranda */
-        transition: all 0.3s ease;
-    }
-
-    .btn-primary {
-        background-color: var(--button-primary);
-        border-color: var(--button-primary);
-        color: white;
-    }
-
-    .btn-primary:hover {
-        background-color: #388E3C;
-        border-color: #388E3C;
-        transform: translateY(-2px);
-    }
-
-    .btn-danger {
-        background-color: var(--button-danger);
-        border-color: var(--button-danger);
-        color: white;
-    }
-
-    .btn-danger:hover {
-        background-color: #E5533D;
-        border-color: #E5533D;
-        transform: translateY(-2px);
-    }
-
-    .btn-success {
-        background-color: var(--button-primary); /* Use button-primary for consistency */
-        border-color: var(--button-primary);
-        color: white; /* Changed to white for better contrast */
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .btn-success:hover {
-        background-color: #388E3C; /* Darker green on hover */
-        border-color: #388E3C;
-        transform: translateY(-2px);
-        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-    }
-
-    .navbar-brand img {
-        width: 100px;
-        height: auto;
-    }
-
-    .navbar {
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(10px);
-        position: fixed;
-        top: 0;
-        width: 100%;
-        z-index: 1050;
-        transition: all 0.3s ease;
-    }
-
-    .navbar.scrolled {
-        background: rgba(255, 255, 255, 0.98);
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-    }
-
-
-    /* Hero Landing Section - Enhanced with Vibrant Colors and Dynamic Image */
-    .hero-landing {
-        background: linear-gradient(135deg, var(--vibrant-blue) 0%, var(--vibrant-green) 100%);
-        /* Consistent with Beranda Hero */
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        color: white;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .hero-landing::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.2); /* Slightly less opaque overlay */
-        z-index: 1;
-    }
-
-    .hero-landing .container {
-        position: relative;
-        z-index: 2;
-    }
-
-    .hero-content-landing {
-        text-align: center;
-        max-width: 900px; /* Slightly wider content area */
-        margin: 0 auto;
-    }
-
-    .hero-content-landing h1 {
-        font-size: 4rem; /* Larger and more impactful headline */
-        font-weight: 900; /* Extra bold */
-        margin-bottom: 25px;
-        text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3); /* Stronger text shadow */
-        animation: fadeInUp 1s ease-out;
-    }
-
-    .hero-content-landing .subtitle {
-        font-size: 1.4rem; /* Larger descriptive text */
-        margin-bottom: 50px; /* More space below subtitle */
-        opacity: 0.95; /* Slightly more opaque */
-        font-weight: 400;
-        line-height: 1.7;
-        animation: fadeInUp 1s ease-out 0.2s both;
-    }
-
-    .hero-buttons {
-        display: flex;
-        gap: 25px; /* Increased gap between buttons */
-        justify-content: center;
-        flex-wrap: wrap;
-        margin-top: 40px;
-        animation: fadeInUp 1s ease-out 0.4s both;
-    }
-
-    .btn-hero {
-        padding: 18px 40px; /* Larger buttons */
-        font-size: 1.2rem; /* Larger font */
-        font-weight: 700; /* Bolder font */
-        border-radius: 50px;
-        border: none;
-        transition: all 0.3s ease;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 12px; /* Increased gap for icon */
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); /* Stronger shadow */
-    }
-
-    .btn-hero.primary {
-        background: white; /* White button for primary action */
-        color: var(--button-primary); /* Green text */
-    }
-
-    .btn-hero.primary:hover {
-        background: #F0F0F0; /* Slightly darker white */
-        color: #388E3C; /* Darker green */
-        transform: translateY(-5px);
-        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-    }
-
-    .btn-hero.secondary {
-        background: rgba(255, 255, 255, 0.25); /* More visible semi-transparent */
-        color: white;
-        border: 2px solid rgba(255, 255, 255, 0.4); /* Stronger border */
-        backdrop-filter: blur(15px); /* Stronger blur */
-    }
-
-    .btn-hero.secondary:hover {
-        background: rgba(255, 255, 255, 0.4);
-        transform: translateY(-5px);
-        color: white;
-        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-    }
-
-    /* Features Section (Consistent with Beranda Product Cards) */
-    .features-section {
-        padding: 100px 0;
-        background: #F7FDF9; /* Consistent light background */
-    }
-
-    .feature-card {
-        background: white;
-        padding: 50px 30px;
-        border-radius: 20px;
-        text-align: center;
-        height: 100%;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-        transition: all 0.4s ease;
-        border: none; /* Remove subtle border */
-        position: relative;
-        overflow: hidden;
-    }
-
-    .feature-card::before {
-        content: '';
-        position: absolute;
-        top: -50px;
-        left: -50px;
-        width: 150px;
-        height: 150px;
-        background-color: var(--vibrant-yellow);
-        /* Subtle circle pattern */
-        border-radius: 50%;
-        opacity: 0.1;
-        transform: scale(0);
-        transition: transform 0.5s ease;
-    }
-
-    .feature-card:nth-child(even)::before {
-        background-color: var(--vibrant-pink);
-    }
-
-    .feature-card:hover::before {
-        transform: scale(1);
-    }
-
-    .feature-card:hover {
-        transform: translateY(-12px) scale(1.01); /* More pronounced lift */
-        box-shadow: 0 25px 55px rgba(0, 0, 0, 0.18); /* Stronger shadow on hover */
-    }
-
-    .feature-icon {
-        width: 100px;
-        height: 100px;
-        margin: 0 auto 30px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 2.8rem; /* Slightly larger icon size */
-        color: white;
-        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15); /* Added shadow to icons */
-    }
-
-    .feature-icon.fresh {
-        background: linear-gradient(135deg, var(--button-primary), #43A047); /* Consistent green */
-    }
-
-    .feature-icon.organic {
-        background: linear-gradient(135deg, #FF9800, #FB8C00); /* Consistent orange/yellow */
-    }
-
-    .feature-icon.delivery {
-        background: linear-gradient(135deg, var(--vibrant-blue), #5DADE2); /* Consistent blue */
-    }
-
-    .feature-icon.quality {
-        background: linear-gradient(135deg, var(--button-danger), #E53935); /* Consistent red */
-    }
-
-    .feature-card h4 {
-        font-size: 1.6rem; /* Slightly larger heading */
-        font-weight: 700;
-        color: var(--text-dark); /* Consistent text color */
-        margin-bottom: 15px;
-    }
-
-    .feature-card p {
-        color: var(--text-light); /* Consistent text color */
-        line-height: 1.7;
-        font-size: 0.95rem; /* Slightly smaller for density */
-    }
-
-    /* About Section */
-    .about-section {
-        padding: 100px 0;
-        background-color: white; /* Clean white background */
-    }
-
-    .about-content h2 {
-        font-size: 3rem; /* Larger heading */
-        font-weight: 800;
-        color: var(--text-dark);
-        margin-bottom: 25px;
-    }
-
-    .about-content p {
-        font-size: 1.1rem;
-        color: var(--text-light);
-        line-height: 1.8;
-        margin-bottom: 20px;
-    }
-
-    .about-image img {
-        border-radius: 25px; /* More rounded image */
-        box-shadow: 0 18px 45px rgba(0, 0, 0, 0.15); /* Stronger shadow */
-    }
-
-    /* Stats Counter (Consistent with Beranda) */
-    .stats-section {
-        background: linear-gradient(135deg, var(--vibrant-blue) 0%, var(--vibrant-green) 100%);
-        /* Consistent vibrant gradient */
-        color: white;
-        padding: 80px 0;
-    }
-
-    .stat-item {
-        text-align: center;
-        padding: 20px;
-    }
-
-    .stat-number {
-        font-size: 3.5rem;
-        font-weight: 900;
-        display: block;
-        margin-bottom: 10px;
-        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
-    }
-
-    .stat-label {
-        font-size: 1.2rem;
-        opacity: 0.95;
-        font-weight: 500;
-    }
-
-    /* Testimonials (Consistent with Beranda Product Cards concept) */
-    .testimonials-section {
-        padding: 100px 0;
-        background: #F7FDF9;
-    }
-
-    .testimonial-card {
-        background: white;
-        padding: 40px;
-        border-radius: 20px;
-        text-align: center;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-        height: 100%;
-        position: relative;
-        transition: transform 0.4s ease, box-shadow 0.4s ease;
-    }
-
-    .testimonial-card::before {
-        content: '';
-        position: absolute;
-        top: -30px; /* Adjust position for better visibility */
-        left: -30px;
-        width: 120px; /* Slightly smaller circle */
-        height: 120px;
-        background-color: var(--vibrant-purple); /* Using purple for a new accent */
-        border-radius: 50%;
-        opacity: 0.1;
-        transform: scale(0);
-        transition: transform 0.5s ease;
-    }
-
-    .testimonial-card:nth-child(even)::before {
-        background-color: var(--vibrant-blue); /* Alternate color */
-    }
-
-    .testimonial-card:hover::before {
-        transform: scale(1);
-    }
-
-    .testimonial-card:hover {
-        transform: translateY(-12px) scale(1.01);
-        box-shadow: 0 25px 55px rgba(0, 0, 0, 0.18);
-    }
-
-    .testimonial-card::after {
-        content: '"';
-        font-size: 4rem;
-        color: var(--button-primary); /* Consistent green quote */
-        position: absolute;
-        top: 20px;
-        left: 50%;
-        transform: translateX(-50%); /* Center the quote */
-        font-family: serif;
-        opacity: 0.2; /* More subtle quote mark */
-        z-index: 0;
-    }
-
-
-    .testimonial-text {
-        font-style: italic;
-        color: var(--text-light);
-        font-size: 1.05rem; /* Slightly larger text */
-        line-height: 1.7;
-        margin-bottom: 30px;
-        margin-top: 40px; /* Adjust margin due to pseudo-element */
-        position: relative;
-        z-index: 1; /* Ensure text is above pseudo-element */
-    }
-
-    .testimonial-author {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 15px;
-    }
-
-    .author-avatar {
-        width: 65px; /* Slightly larger avatar */
-        height: 65px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, var(--button-primary), #43A047); /* Consistent green gradient */
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-size: 1.8rem; /* Larger initial */
-        font-weight: 700;
-        box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
-    }
-
-    .author-info h6 {
-        margin: 0;
-        color: var(--text-dark);
-        font-weight: 600;
-        font-size: 1.1rem;
-    }
-
-    .author-info small {
-        color: var(--text-light);
-    }
-
-    /* Footer (Consistent with Beranda) */
-    .footer {
-        background: #2c3e50;
-        color: white;
-        padding: 60px 0 30px;
-    }
-
-    .footer h5 {
-        color: var(--button-primary); /* Consistent green for headings */
-        margin-bottom: 20px;
-        font-weight: 600;
-    }
-
-    .footer ul {
-        list-style: none;
-        padding: 0;
-    }
-
-    .footer ul li {
-        margin-bottom: 10px;
-    }
-
-    .footer ul li a {
-        color: #bdc3c7;
-        text-decoration: none;
-        transition: color 0.3s ease;
-    }
-
-    .footer ul li a:hover {
-        color: var(--button-primary);
-    }
-
-    .social-links {
-        display: flex;
-        gap: 15px;
-        margin-top: 20px;
-    }
-
-    .social-links a {
-        width: 45px; /* Slightly larger icons */
-        height: 45px;
-        background: #34495e;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-size: 1.1rem; /* Slightly larger icon font */
-        text-decoration: none;
-        transition: all 0.3s ease;
-    }
-
-    .social-links a:hover {
-        background: var(--button-primary);
-        transform: translateY(-3px);
-    }
-
-    .footer-bottom {
-        border-top: 1px solid #34495e;
-        margin-top: 40px;
-        padding-top: 30px;
-        text-align: center;
-        color: #bdc3c7;
-    }
-
-    /* Animations */
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    .fade-in {
-        opacity: 0;
-        transform: translateY(30px);
-        transition: all 0.8s ease;
-    }
-
-    .fade-in.visible {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    /* Section Titles (Consistent with Beranda) */
-    .section-title {
-        text-align: center;
-        margin-bottom: 80px;
-    }
-
-    .section-title h2 {
-        font-size: 3rem; /* Consistent with Beranda */
-        font-weight: 800;
-        color: var(--text-dark);
-        margin-bottom: 20px;
-    }
-
-    .section-title p {
-        font-size: 1.2rem;
-        color: var(--text-light);
-        max-width: 600px;
-        margin: 0 auto;
-        line-height: 1.6;
-    }
-
-    /* Responsive */
-    @media (max-width: 992px) {
-        .hero-content-landing h1 {
-            font-size: 3.5rem;
-        }
-
-        .hero-content-landing .subtitle {
-            font-size: 1.2rem;
-        }
-
-        .btn-hero {
-            padding: 15px 30px;
-            font-size: 1.1rem;
-        }
-
-        .section-title h2 {
-            font-size: 2.8rem;
-        }
-    }
-
-    @media (max-width: 768px) {
-        .hero-content-landing h1 {
-            font-size: 2.8rem;
-        }
-
-        .hero-content-landing .subtitle {
-            font-size: 1rem;
-        }
-
-        .hero-buttons {
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .btn-hero {
-            width: 100%;
-            max-width: 320px;
-            justify-content: center;
-        }
-
-        .features-section,
-        .about-section,
-        .testimonials-section,
-        .stats-section {
-            padding: 60px 0;
-        }
-
-        .section-title h2 {
-            font-size: 2.2rem;
-        }
-
-        .about-content {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .stat-number {
-            font-size: 2.8rem;
-        }
-
-        .stat-label {
-            font-size: 1rem;
-        }
-
-        .feature-icon {
-            width: 80px;
-            height: 80px;
-            font-size: 2.2rem;
-        }
-
-        .feature-card h4 {
-            font-size: 1.4rem;
-        }
-
-        .testimonial-card::after {
-            font-size: 3rem;
-            top: 10px;
-        }
-
-        .testimonial-text {
-            font-size: 1rem;
-        }
-
-        .author-avatar {
-            width: 55px;
-            height: 55px;
-            font-size: 1.4rem;
-        }
-
-        .author-info h6 {
-            font-size: 1rem;
-        }
-    }
-</style>
-
 <body>
-    <nav class="navbar navbar-expand-lg" id="mainNavbar">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="index.html">
-                <img src="assets/logo.png" alt="Sygara Logo"> </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <a class="navbar-brand" href="#" onclick="showHomePage()">Toko Kamera</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
-                    <a class="nav-link active" aria-current="page" href="index.html">Beranda</a> <a class="nav-link" href="produk.html">Produk</a>
-                    <div class="vr ms-3 me-3" style="background-color: rgba(0, 0, 0, 0.1);"></div> <a class="btn btn-primary" href="#login">Masuk</a>
-                    <a class="btn btn-danger" href="#register">Daftar</a>
-                </div>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#" onclick="showHomePage()">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#produk" onclick="showHomePage()">Produk</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#testimoni" onclick="showHomePage()">Testimoni</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#kontak" onclick="showHomePage()">Kontak</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://wa.me/085841506189">WhatsApp</a></li>
+                    <li class="nav-item"><a class="nav-link" href="mailto:info@tokokamera.com">Email</a></li>
+                    <li class="nav-item" id="auth-nav-item">
+                        <span id="user-greeting" class="user-greeting d-none"></span>
+                        <a class="nav-link" href="#" id="auth-link" onclick="showAuthPage('login')">Login</a>
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>
 
-    <section class="hero-landing" id="home">
+    <!-- Halaman Login/Register -->
+    <div id="auth-page" class="auth-page">
         <div class="container">
-            <div class="hero-content-landing">
-                <h1>Hidup Sehat Dimulai dari Sygara</h1>
-                <p class="subtitle">Dapatkan buah dan sayur segar berkualitas tinggi langsung dari kebun terbaik.
-                    Produk organik premium untuk kesehatan keluarga Indonesia.</p>
+            <div class="auth-container bg-white">
+                <div id="login-form">
+                    <h2 class="text-center mb-4">Login</h2>
+                    <form id="loginForm">
+                        <div class="mb-3">
+                            <label for="loginEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="loginEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="loginPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="loginPassword" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Login</button>
+                        <p class="text-center mt-3">Belum punya akun? <span class="auth-toggle" onclick="showAuthPage('register')">Daftar disini</span></p>
+                    </form>
+                </div>
 
-                <div class="hero-buttons">
-                    <a href="beranda.html" class="btn-hero primary">
-                        <i class="fas fa-rocket"></i>
-                        Mulai Berbelanja
-                    </a>
-                    <a href="#features" class="btn-hero secondary">
-                        <i class="fas fa-play"></i>
-                        Pelajari Lebih Lanjut
-                    </a>
+                <div id="register-form" style="display: none;">
+                    <h2 class="text-center mb-4">Daftar Akun</h2>
+                    <form id="registerForm">
+                        <div class="mb-3">
+                            <label for="registerName" class="form-label">Nama Lengkap</label>
+                            <input type="text" class="form-control" id="registerName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="registerEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="registerEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="registerPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="registerPassword" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="registerConfirmPassword" class="form-label">Konfirmasi Password</label>
+                            <input type="password" class="form-control" id="registerConfirmPassword" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Daftar</button>
+                        <p class="text-center mt-3">Sudah punya akun? <span class="auth-toggle" onclick="showAuthPage('login')">Login disini</span></p>
+                    </form>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <section class="features-section" id="features">
-        <div class="container">
-            <div class="section-title fade-in">
-                <h2>Mengapa Memilih Sygara?</h2>
-                <p>Kami berkomitmen memberikan yang terbaik untuk kesehatan keluarga Anda dengan standar kualitas tertinggi</p>
+    <!-- Halaman Utama -->
+    <div id="home-page">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <h1 class="display-4">Temukan Kamera Impian Anda</h1>
+                <p class="lead">Penawaran terbaik untuk kamera profesional dan pemula.</p>
+                <a href="#produk" class="btn btn-primary btn-lg">Lihat Produk</a>
             </div>
+        </section>
 
-            <div class="row g-4">
-                <div class="col-lg-3 col-md-6">
-                    <div class="feature-card fade-in">
-                        <div class="feature-icon fresh">
-                            <i class="fas fa-leaf"></i>
-                        </div>
-                        <h4>100% Segar</h4>
-                        <p>Langsung dari kebun ke rumah Anda. Kesegaran terjamin dengan sistem cold chain terbaik.</p>
-                    </div>
+        <!-- Produk Unggulan dengan Filter -->
+        <section id="produk" class="py-5">
+            <div class="container">
+                <h2 class="text-center mb-4">Produk Unggulan</h2>
+                <div class="filter-bar d-flex justify-content-between flex-wrap">
+                    <input type="text" class="form-control me-2 mb-2" style="flex:1" placeholder="Cari kamera...">
+                    <select class="form-select mb-2" style="width: 200px;">
+                        <option value="">Filter Harga</option>
+                        <option value="low">Di bawah Rp5jt</option>
+                        <option value="mid">Rp5jt - Rp10jt</option>
+                        <option value="high">Di atas Rp10jt</option>
+                    </select>
                 </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="feature-card fade-in">
-                        <div class="feature-icon organic">
-                            <i class="fas fa-seedling"></i>
-                        </div>
-                        <h4>Organik Bersertifikat</h4>
-                        <p>Tanpa pestisida dan bahan kimia berbahaya. Aman untuk seluruh keluarga termasuk anak-anak.</p>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="feature-card fade-in">
-                        <div class="feature-icon delivery">
-                            <i class="fas fa-truck"></i>
-                        </div>
-                        <h4>Pengiriman Cepat</h4>
-                        <p>Pengiriman *same day* untuk area Jabodetabek. Sistem logistik terintegrasi dan terpercaya.</p>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="feature-card fade-in">
-                        <div class="feature-icon quality">
-                            <i class="fas fa-award"></i>
-                        </div>
-                        <h4>Jaminan Kualitas</h4>
-                        <p>Garansi 100% atau uang kembali. Tim *quality control* berpengalaman untuk setiap produk.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="stats-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-md-6">
-                    <div class="stat-item fade-in">
-                        <span class="stat-number" data-count="10000">0</span>
-                        <div class="stat-label">Pelanggan Setia</div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="stat-item fade-in">
-                        <span class="stat-number" data-count="500">0</span>
-                        <div class="stat-label">Produk Tersedia</div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="stat-item fade-in">
-                        <span class="stat-number" data-count="50">0</span>
-                        <div class="stat-label">Kota Terjangkau</div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="stat-item fade-in">
-                        <span class="stat-number" data-count="5">0</span>
-                        <div class="stat-label">Tahun Pengalaman</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="about-section" id="about">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6">
-                    <div class="about-content fade-in">
-                        <h2>Cerita Tentang Sygara</h2>
-                        <p>Berawal dari keprihatinan akan sulitnya mendapatkan buah dan sayur segar berkualitas, Sygara hadir
-                            sebagai solusi untuk keluarga Indonesia yang peduli kesehatan.</p>
-                        <p>Kami bekerja sama langsung dengan petani lokal untuk memastikan setiap produk yang sampai ke
-                            tangan Anda adalah yang terbaik. Dari proses penanaman hingga pengiriman, semua dilakukan dengan
-                            standar kualitas tertinggi.</p>
-                        <p>Visi kami sederhana: membuat hidup sehat menjadi lebih mudah dan terjangkau untuk semua keluarga
-                            Indonesia.</p>
-                        <a href="beranda.html" class="btn btn-success btn-lg mt-3">
-                            <i class="fas fa-arrow-right me-2"></i>Lihat Produk Kami
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="about-image fade-in">
-                        <img src="https://images.unsplash.com/photo-1566385101042-1a0aa0c1268c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                            alt="Fresh vegetables and fruits" class="img-fluid">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="testimonials-section" id="testimonials">
-        <div class="container">
-            <div class="section-title fade-in">
-                <h2>Apa Kata Pelanggan Kami</h2>
-                <p>Ribuan keluarga Indonesia telah merasakan manfaat berbelanja di Sygara</p>
-            </div>
-
-            <div class="row g-4">
-                <div class="col-lg-4 col-md-6">
-                    <div class="testimonial-card fade-in">
-                        <div class="testimonial-text">
-                            Sygara benar-benar mengubah cara kami berbelanja buah dan sayur. Kualitasnya luar biasa segar dan
-                            pengiriman sangat cepat!
-                        </div>
-                        <div class="testimonial-author">
-                            <div class="author-avatar">S</div>
-                            <div class="author-info">
-                                <h6>Sari Dewi</h6>
-                                <small>Ibu Rumah Tangga, Jakarta</small>
+                <div class="row">
+                    <div class="col-md-4 mb-4">
+                        <div class="card product-card">
+                            <img src="https://www.dpreview.com/files/p/articles/6388273886/images/frontpage.jpeg" class="card-img-top" alt="Kamera DSLR X1">
+                            <div class="card-body">
+                                <h5 class="card-title">Kamera DSLR X1</h5>
+                                <p class="card-text">Kamera profesional dengan fitur lengkap untuk hasil maksimal.</p>
+                                <p class="fw-bold">Rp 6.500.000</p>
+                                <a href="#" class="btn btn-outline-primary" onclick="showProductDetail('dslr-x1')">Lihat Detail</a>
+                                <a href="https://wa.me/085841506189" class="btn btn-success">Pesan via WA</a>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="testimonial-card fade-in">
-                        <div class="testimonial-text">
-                            Anak-anak jadi lebih suka makan sayur sejak berbelanja di Sygara. Rasanya beda, lebih manis dan
-                            segar!
-                        </div>
-                        <div class="testimonial-author">
-                            <div class="author-avatar">A</div>
-                            <div class="author-info">
-                                <h6>Ahmad Rizki</h6>
-                                <small>Ayah 2 Anak, Bandung</small>
+                    <div class="col-md-4 mb-4">
+                        <div class="card product-card">
+                            <img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f" class="card-img-top" alt="Kamera Vlog V9">
+                            <div class="card-body">
+                                <h5 class="card-title">Kamera Vlog V9</h5>
+                                <p class="card-text">Ideal untuk vlog, ringan dan kualitas video 4K.</p>
+                                <p class="fw-bold">Rp 5.700.000</p>
+                                <a href="#" class="btn btn-outline-primary" onclick="showProductDetail('vlog-v9')">Lihat Detail</a>
+                                <a href="https://wa.me/085841506189" class="btn btn-success">Pesan via WA</a>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="testimonial-card fade-in">
-                        <div class="testimonial-text">
-                            Pelayanan customer service nya sangat responsif. Pengiriman selalu tepat waktu dan produk sesuai
-                            ekspektasi.
-                        </div>
-                        <div class="testimonial-author">
-                            <div class="author-avatar">M</div>
-                            <div class="author-info">
-                                <h6>Maya Putri</h6>
-                                <small>Professional, Surabaya</small>
+                    <div class="col-md-4 mb-4">
+                        <div class="card product-card">
+                            <img src="https://www.static-src.com/wcsstore/Indraprastha/images/catalog/full//94/MTA-9133726/gopro_gopro_hero_9_black_action_camera_full01_fr8z1dwn.jpg" class="card-img-top" alt="Kamera Action GO Pro">
+                            <div class="card-body">
+                                <h5 class="card-title">Kamera Action GO Pro</h5>
+                                <p class="card-text">Kamera ini tahan air untuk petualangan ekstrem dan olahraga.</p>
+                                <p class="fw-bold">Rp 3.900.000</p>
+                                <a href="#" class="btn btn-outline-primary" onclick="showProductDetail('go-pro')">Lihat Detail</a>
+                                <a href="https://wa.me/085841506189" class="btn btn-success">Pesan via WA</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <footer class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 col-md-6">
-                    <h5>Sygara</h5>
-                    <p>Platform terpercaya untuk mendapatkan buah dan sayur segar berkualitas tinggi langsung dari kebun ke
-                        rumah Anda.</p>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
+        <!-- Testimoni -->
+        <section id="testimoni" class="bg-light py-5">
+            <div class="container">
+                <h2 class="text-center mb-4">Apa Kata Pelanggan</h2>
+                <div class="row align-items-center">
+                    <div class="col-md-6 d-flex">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="andre" class="testimonial-img">
+                        <blockquote class="blockquote">
+                            <p>"Kamera yang saya beli sangat memuaskan! Pengiriman cepat dan aman."</p>
+                            <footer class="blockquote-footer">andre taulany, Belitang</footer>
+                        </blockquote>
+                    </div>
+                    <div class="col-md-6 d-flex">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="rina" class="testimonial-img">
+                        <blockquote class="blockquote">
+                            <p>"Tampilan website sangat modern dan mudah digunakan!"</p>
+                            <footer class="blockquote-footer">Rina, oku timur</footer>
+                        </blockquote>
                     </div>
                 </div>
-                <div class="col-lg-2 col-md-6">
-                    <h5>Menu</h5>
-                    <ul>
-                        <li><a href="#home">Beranda</a></li>
-                        <li><a href="produk.html">Produk</a></li>
-                        <li><a href="#about">Tentang Kami</a></li>
-                        <li><a href="#testimonials">Testimoni</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <h5>Layanan</h5>
-                    <ul>
-                        <li><a href="#">Pengiriman</a></li>
-                        <li><a href="#">Berlangganan</a></li>
-                        <li><a href="#">Jaminan Kualitas</a></li>
-                        <li><a href="#">Pusat Bantuan</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <h5>Kontak</h5>
-                    <ul>
-                        <li><i class="fas fa-phone me-2"></i> +62 21 1234 5678</li>
-                        <li><i class="fas fa-envelope me-2"></i> info@sygara.com</li>
-                        <li><i class="fas fa-map-marker-alt me-2"></i> Jakarta, Indonesia</li>
-                    </ul>
+                <div class="text-center mt-4">
+                    <a href="https://www.google.com/maps/place/Toko+Kamera" class="btn btn-outline-secondary">Lihat Lokasi</a>
                 </div>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 Sygara. Hak Cipta Dilindungi. Dibuat dengan ❤️ untuk kesehatan keluarga Indonesia.</p>
+        </section>
+
+        <!-- Form Pemesanan & Kontak -->
+        <section id="kontak" class="py-5">
+            <div class="container">
+                <h2 class="text-center mb-4">Hubungi Kami</h2>
+                <div class="text-center mb-4">
+                    <img src="https://images.unsplash.com/photo-1516728778615-2d590ea1856f" class="img-fluid rounded" alt="kontak kamera" style="max-width: 300px;">
+                </div>
+                <form action="mailto:info@tokokamera.com" method="POST" enctype="text/plain">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <input type="text" class="form-control" placeholder="Nama Anda" name="nama" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <input type="email" class="form-control" placeholder="Email Anda" name="email" required>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <textarea class="form-control" rows="4" placeholder="Pesan Anda" name="pesan"></textarea>
+                        </div>
+                        <div class="col-12 text-center">
+                            <button type="submit" class="btn btn-primary">Kirim Pesan</button>
+                            <a href="https://wa.me/085841506189" class="btn btn-success ms-2">Hubungi via WA</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </div>
+
+    <!-- Halaman Detail Produk DSLR X1 -->
+    <div id="dslr-x1" class="product-detail-page">
+        <section class="py-5">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-6 mb-4">
+                        <img src="https://www.dpreview.com/files/p/articles/6388273886/images/frontpage.jpeg" alt="Kamera DSLR X1" class="product-image">
+                    </div>
+                    <div class="col-md-6">
+                        <h1>Kamera DSLR X1</h1>
+                        <p class="lead">Rp 6.500.000</p>
+                        <p>Kamera profesional dengan fitur lengkap untuk fotografer pemula hingga mahir.</p>
+                        
+                        <h4>Spesifikasi Teknis:</h4>
+                        <ul class="specs-list">
+                            <li><strong>Sensor:</strong> APS-C CMOS 24.2MP</li>
+                            <li><strong>Processor:</strong> DIGIC 8</li>
+                            <li><strong>ISO:</strong> 100-25600 (expandable to 51200)</li>
+                            <li><strong>Autofokus:</strong> 45 titik cross-type</li>
+                            <li><strong>Video:</strong> Full HD 1080p @ 60fps</li>
+                            <li><strong>Layar:</strong> 3.0" LCD Touchscreen</li>
+                            <li><strong>Konektivitas:</strong> Wi-Fi, Bluetooth</li>
+                            <li><strong>Baterai:</strong> Hingga 600 shot per charge</li>
+                        </ul>
+                        
+                        <h4>Fitur Unggulan:</h4>
+                        <ul class="specs-list">
+                            <li>Dual Pixel CMOS AF untuk fokus cepat</li>
+                            <li>Eye Detection AF untuk portrait sempurna</li>
+                            <li>4K Time-lapse video</li>
+                            <li>Built-in flash</li>
+                            <li>Mode kreatif otomatis</li>
+                            <li>Stabilisasi gambar 5-axis</li>
+                        </ul>
+                        
+                        <a href="https://wa.me/085841506189?text=Saya%20tertarik%20dengan%20Kamera%20DSLR%20X1" class="btn btn-success">Pesan via WhatsApp</a>
+                        <a href="#" class="btn btn-outline-secondary back-button" onclick="showHomePage()">Kembali ke Produk</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Halaman Detail Produk Vlog V9 -->
+    <div id="vlog-v9" class="product-detail-page">
+        <section class="py-5">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-6 mb-4">
+                        <img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f" alt="Kamera Vlog V9" class="product-image">
+                    </div>
+                    <div class="col-md-6">
+                        <h1>Kamera Vlog V9</h1>
+                        <p class="lead">Rp 5.700.000</p>
+                        <p>Kamera ringan dengan kualitas video 4K untuk kebutuhan vlogging profesional.</p>
+                        
+                        <h4>Spesifikasi Teknis:</h4>
+                        <ul class="specs-list">
+                            <li><strong>Sensor:</strong> 1" CMOS 20.1MP</li>
+                            <li><strong>Video:</strong> 4K UHD 30fps / Full HD 120fps</li>
+                            <li><strong>Layar:</strong> 3.0" LCD Flip-up Touchscreen</li>
+                            <li><strong>Stabilisasi:</strong> 5-axis Optical SteadyShot</li>
+                            <li><strong>Mikrofon:</strong> Built-in stereo dengan noise reduction</li>
+                            <li><strong>Konektivitas:</strong> Wi-Fi, NFC, Bluetooth</li>
+                            <li><strong>Baterai:</strong> Hingga 70 menit rekaman video</li>
+                        </ul>
+                        
+                        <h4>Fitur Unggulan:</h4>
+                        <ul class="specs-list">
+                            <li>Layar flip-up untuk selfie dan vlogging</li>
+                            <li>Fitur eye-tracking untuk fokus otomatis</li>
+                            <li>Mode slow motion 120fps</li>
+                            <li>Port mic eksternal 3.5mm</li>
+                            <li>Ringan hanya 500g termasuk baterai</li>
+                            <li>Live streaming langsung dari kamera</li>
+                        </ul>
+                        
+                        <a href="https://wa.me/085841506189?text=Saya%20tertarik%20dengan%20Kamera%20Vlog%20V9" class="btn btn-success">Pesan via WhatsApp</a>
+                        <a href="#" class="btn btn-outline-secondary back-button" onclick="showHomePage()">Kembali ke Produk</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Halaman Detail Produk Action GO Pro -->
+    <div id="go-pro" class="product-detail-page">
+        <section class="py-5">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-6 mb-4">
+                        <img src="https://www.static-src.com/wcsstore/Indraprastha/images/catalog/full//94/MTA-9133726/gopro_gopro_hero_9_black_action_camera_full01_fr8z1dwn.jpg" alt="Kamera Action GO Pro" class="product-image">
+                    </div>
+                    <div class="col-md-6">
+                        <h1>Kamera Action GO Pro</h1>
+                        <p class="lead">Rp 3.900.000</p>
+                        <p>Kamera tahan air untuk petualangan ekstrem dan olahraga outdoor.</p>
+                        
+                        <h4>Spesifikasi Teknis:</h4>
+                        <ul class="specs-list">
+                            <li><strong>Sensor:</strong> 1/2.3" CMOS 12MP</li>
+                            <li><strong>Video:</strong> 5K 30fps / 4K 60fps</li>
+                            <li><strong>Kedalaman:</strong> Tahan air hingga 10m tanpa housing</li>
+                            <li><strong>Layar:</strong> 2.27" Touchscreen + 1.4" LCD depan</li>
+                            <li><strong>Stabilisasi:</strong> HyperSmooth 3.0</li>
+                            <li><strong>Konektivitas:</strong> Wi-Fi, Bluetooth, USB-C</li>
+                            <li><strong>Baterai:</strong> Hingga 2 jam rekaman 4K</li>
+                        </ul>
+                        
+                        <h4>Fitur Unggulan:</h4>
+                        <ul class="specs-list">
+                            <li>Tahan air, debu, dan guncangan</li>
+                            <li>Mode TimeWarp 3.0 untuk hyperlapse</li>
+                            <li>Live streaming 1080p</li>
+                            <li>Voice control hands-free</li>
+                            <li>Kompatibel dengan berbagai aksesori</li>
+                            <li>HDR untuk foto dan video</li>
+                        </ul>
+                        
+                        <a href="https://wa.me/085841506189?text=Saya%20tertarik%20dengan%20Kamera%20Action%20GO%20Pro" class="btn btn-success">Pesan via WhatsApp</a>
+                        <a href="#" class="btn btn-outline-secondary back-button" onclick="showHomePage()">Kembali ke Produk</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-4">
+        <div class="container">
+            <img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f" alt="logo kamera" class="mb-3" style="width: 100px;">
+            <p>&copy; 2025 Toko Kamera. All rights reserved.</p>
+            <div>
+                <a href="#" class="text-white me-3" onclick="showHomePage()">Home</a>
+                <a href="#produk" class="text-white me-3" onclick="showHomePage()">Produk</a>
+                <a href="#testimoni" class="text-white me-3" onclick="showHomePage()">Testimoni</a>
+                <a href="#kontak" class="text-white me-3" onclick="showHomePage()">Kontak</a>
+                <a href="https://wa.me/085841506189" class="text-white me-3">WhatsApp</a>
+                <a href="mailto:info@tokokamera.com" class="text-white me-3">Email</a>
             </div>
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
-        crossorigin="anonymous"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Navbar scroll effect
-        window.addEventListener('scroll', function () {
-            const navbar = document.getElementById('mainNavbar');
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
+        // Data user yang terdaftar
+        const registeredUsers = [];
+        let currentUser = null;
+
+        // Fungsi untuk menampilkan halaman utama
+        function showHomePage() {
+            document.getElementById('home-page').style.display = 'block';
+            document.getElementById('auth-page').classList.remove('active');
+            document.getElementById('dslr-x1').classList.remove('active');
+            document.getElementById('vlog-v9').classList.remove('active');
+            document.getElementById('go-pro').classList.remove('active');
+            window.scrollTo(0, 0);
+            return false;
+        }
+
+        // Fungsi untuk menampilkan detail produk
+        function showProductDetail(productId) {
+            document.getElementById('home-page').style.display = 'none';
+            document.getElementById('auth-page').classList.remove('active');
+            document.getElementById(productId).classList.add('active');
+            window.scrollTo(0, 0);
+            return false;
+        }
+
+        // Fungsi untuk menampilkan halaman login/register
+        function showAuthPage(formType) {
+            document.getElementById('home-page').style.display = 'none';
+            document.getElementById('dslr-x1').classList.remove('active');
+            document.getElementById('vlog-v9').classList.remove('active');
+            document.getElementById('go-pro').classList.remove('active');
+            document.getElementById('auth-page').classList.add('active');
+            
+            if (formType === 'login') {
+                document.getElementById('login-form').style.display = 'block';
+                document.getElementById('register-form').style.display = 'none';
             } else {
-                navbar.classList.remove('scrolled');
+                document.getElementById('login-form').style.display = 'none';
+                document.getElementById('register-form').style.display = 'block';
+            }
+            
+            window.scrollTo(0, 0);
+            return false;
+        }
+
+        // Fungsi untuk login
+        function loginUser(email, password) {
+            const user = registeredUsers.find(u => u.email === email && u.password === password);
+            return user;
+        }
+
+        // Fungsi untuk registrasi
+        function registerUser(name, email, password) {
+            // Cek apakah email sudah terdaftar
+            if (registeredUsers.some(u => u.email === email)) {
+                return false;
+            }
+            
+            // Tambahkan user baru
+            registeredUsers.push({
+                name,
+                email,
+                password
+            });
+            
+            return true;
+        }
+
+        // Event listener untuk form login
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            const user = loginUser(email, password);
+            if (user) {
+                currentUser = user;
+                alert('Login berhasil!');
+                updateAuthUI();
+                showHomePage();
+            } else {
+                alert('Email atau password salah!');
             }
         });
 
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    const offsetTop = target.offsetTop - 80;
-                    window.scrollTo({
-                        top: offsetTop,
-                        behavior: 'smooth'
-                    });
-                }
-            });
+        // Event listener untuk form register
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('registerConfirmPassword').value;
+            
+            if (password !== confirmPassword) {
+                alert('Password dan konfirmasi password tidak cocok!');
+                return;
+            }
+            
+            if (registerUser(name, email, password)) {
+                alert('Registrasi berhasil! Silakan login.');
+                showAuthPage('login');
+                // Auto-fill email setelah registrasi
+                document.getElementById('loginEmail').value = email;
+            } else {
+                alert('Email sudah terdaftar!');
+            }
         });
 
-        // Intersection Observer for animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, observerOptions);
-
-        // Observe all fade-in elements
-        document.querySelectorAll('.fade-in').forEach(el => {
-            observer.observe(el);
-        });
-
-        // Counter animation
-        function animateCounter(element, target) {
-            let current = 0;
-            const increment = target / 100;
-            const timer = setInterval(() => {
-                current += increment;
-                element.textContent = Math.floor(current).toLocaleString();
-                if (current >= target) {
-                    element.textContent = target.toLocaleString();
-                    clearInterval(timer);
-                }
-            }, 20);
+        // Fungsi untuk update UI setelah login/logout
+        function updateAuthUI() {
+            const authLink = document.getElementById('auth-link');
+            const userGreeting = document.getElementById('user-greeting');
+            
+            if (currentUser) {
+                userGreeting.textContent = `Halo, ${currentUser.name}`;
+                userGreeting.classList.remove('d-none');
+                authLink.textContent = 'Logout';
+                authLink.onclick = function() {
+                    currentUser = null;
+                    updateAuthUI();
+                    showHomePage();
+                    return false;
+                };
+            } else {
+                userGreeting.classList.add('d-none');
+                authLink.textContent = 'Login';
+                authLink.onclick = function() {
+                    showAuthPage('login');
+                    return false;
+                };
+            }
         }
 
-        // Stats counter observer
-        const statsObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const countElement = entry.target.querySelector('.stat-number');
-                    const targetValue = parseInt(countElement.getAttribute('data-count'));
-                    animateCounter(countElement, targetValue);
-                    statsObserver.unobserve(entry.target); // Stop observing after animation
-                }
-            });
-        }, { threshold: 0.5 });
-
-        // Observe stat items for counter animation
-        document.querySelectorAll('.stat-item').forEach(item => {
-            statsObserver.observe(item);
+        // Inisialisasi halaman saat pertama kali dimuat
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tambahkan user dummy untuk testing
+            registerUser('Admin', 'admin@tokokamera.com', 'admin123');
+            
+            showHomePage();
+            updateAuthUI();
         });
     </script>
 </body>
